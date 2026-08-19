@@ -24,6 +24,7 @@
             "group": "Our Packages",
             "pages": [
               "packages/overview",
+              "packages/estimator",
               "packages/elopement-essentials",
               "packages/intimate-keepsake",
               "packages/joyful-gathering",

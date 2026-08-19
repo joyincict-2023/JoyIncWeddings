@@ -1,0 +1,244 @@
+---
+title: "Wedding Coordination Package Estimator | Joy Inc."
+sidebarTitle: "Package Estimator"
+description: "Answer a few quick questions and Joy Inc. will recommend the wedding coordination package that best fits your celebration, with an estimated investment."
+---
+
+Find your perfect level of support in under a minute. Tell us a bit about your celebration and we'll recommend the Joy Inc. package that fits best, along with an estimated investment.
+
+export const Estimator = () => {
+  const PRICES = {
+    essentials: 299,
+    keepsake: 399,
+    gathering: 549,
+    celebration: 749,
+  };
+  const NAMES = {
+    essentials: "The Elopement Essentials",
+    keepsake: "The Intimate Keepsake",
+    gathering: "The Joyful Gathering",
+    celebration: "The Ultimate Celebration",
+  };
+  const HREFS = {
+    essentials: "/packages/elopement-essentials",
+    keepsake: "/packages/intimate-keepsake",
+    gathering: "/packages/joyful-gathering",
+    celebration: "/packages/ultimate-celebration",
+  };
+
+  const totalSteps = 5;
+  const [step, setStep] = useState(1);
+  const [type, setType] = useState(null);
+  const [hours, setHours] = useState(null);
+  const [rehearsal, setRehearsal] = useState(null);
+  const [support, setSupport] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [error, setError] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const toggleEvent = (v) => {
+    setEvents((prev) => prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v]);
+  };
+
+  const isValid = () => {
+    if (step === 1) return !!type;
+    if (step === 2) return !!hours;
+    if (step === 3) return !!rehearsal;
+    if (step === 4) return !!support;
+    if (step === 5) return events.length > 0;
+    return true;
+  };
+
+  const next = () => {
+    if (!isValid()) { setError(true); return; }
+    setError(false);
+    if (step < totalSteps) setStep(step + 1);
+    else setDone(true);
+  };
+
+  const back = () => {
+    setError(false);
+    if (step > 1) setStep(step - 1);
+  };
+
+  const restart = () => {
+    setStep(1); setType(null); setHours(null); setRehearsal(null);
+    setSupport(null); setEvents([]); setError(false); setDone(false);
+  };
+
+  const recommend = () => {
+    const h = Number(hours);
+    let key = "gathering";
+    let reason = "Your celebration sounds like a great fit for full wedding-day coordination, with someone there to keep the details moving so you can enjoy the day.";
+    if (type === "elopement" || type === "micro") {
+      key = "essentials";
+      reason = "Your celebration sounds intimate enough that you may not need full-day coverage. The Essentials gives you focused coordination without paying for support you may not need.";
+    } else if (type === "intimate" && h <= 6) {
+      key = "keepsake";
+      reason = "Your smaller celebration would likely benefit from focused coordination before and during the wedding, while keeping the package streamlined.";
+    }
+    if (h >= 8 || events.length >= 5 || rehearsal === "yes") {
+      if (key === "essentials") key = "keepsake";
+      else if (key === "keepsake") key = "gathering";
+    }
+    if (support === "hands" || h > 8 || type === "complex") {
+      key = "celebration";
+      reason = "Your answers suggest a wedding with enough moving pieces that additional support before the wedding, and a second set of hands on the wedding day, could make a meaningful difference.";
+    }
+    if (type === "elopement" && support !== "hands" && h <= 4) {
+      key = "essentials";
+    }
+    return { key, reason };
+  };
+
+  const Option = ({ name, value, checked, onChange, type: t = "radio" }) => (
+    <label className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
+      <input type={t} name={name} value={value} checked={checked} onChange={onChange} className="accent-current" />
+      <span>{value}</span>
+    </label>
+  );
+
+  if (done) {
+    const { key, reason } = recommend();
+    return (
+      <div className="my-6 rounded-2xl border border-gray-200 dark:border-zinc-800 p-8 text-center">
+        <div className="uppercase tracking-widest text-xs text-gray-500 font-semibold">Based on your answers, we recommend</div>
+        <div className="text-3xl font-semibold mt-2 mb-2">{NAMES[key]}</div>
+        <div className="text-4xl font-bold my-3">${PRICES[key].toLocaleString()} estimated</div>
+        <p className="max-w-xl mx-auto text-gray-600 dark:text-zinc-400 mb-2">{reason}</p>
+        <p className="text-xs text-gray-500 mb-6">This is an estimated investment, not a final quote. Your exact needs may affect the final price.</p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <a href="mailto:joyincict@gmail.com?subject=Joy%20Inc.%20Wedding%20Coordination%20Consultation" className="inline-block px-6 py-3 rounded-full bg-primary text-white font-semibold no-underline">
+            Let's Talk About Your Wedding
+          </a>
+          <a href={HREFS[key]} className="inline-block px-6 py-3 rounded-full border border-gray-300 dark:border-zinc-700 font-semibold no-underline">
+            View Package Details
+          </a>
+        </div>
+        <div className="mt-6">
+          <button onClick={restart} className="underline text-sm text-gray-500">Start over</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="my-6 rounded-2xl border border-gray-200 dark:border-zinc-800 p-6 md:p-8">
+      <div className="h-2 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden mb-6">
+        <div className="h-full bg-primary transition-all" style={{ width: `${(step / totalSteps) * 100}%` }} />
+      </div>
+
+      {step === 1 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-2">What kind of celebration are you planning?</h3>
+          {[
+            ["elopement", "Elopement"],
+            ["micro", "Micro-wedding"],
+            ["intimate", "Small or intimate wedding"],
+            ["traditional", "Traditional wedding"],
+            ["complex", "Large or logistically complex wedding"],
+          ].map(([v, label]) => (
+            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
+              <input type="radio" name="type" checked={type === v} onChange={() => setType(v)} />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {step === 2 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-2">How much wedding-day coverage do you think you'll need?</h3>
+          {[
+            ["4", "About 4 hours"],
+            ["6", "About 6 hours"],
+            ["8", "About 8 hours"],
+            ["10", "More than 8 hours"],
+          ].map(([v, label]) => (
+            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
+              <input type="radio" name="hours" checked={hours === v} onChange={() => setHours(v)} />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {step === 3 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-2">Will you have a rehearsal?</h3>
+          {[
+            ["yes", "Yes, we'll have a rehearsal"],
+            ["no", "No rehearsal"],
+          ].map(([v, label]) => (
+            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
+              <input type="radio" name="rehearsal" checked={rehearsal === v} onChange={() => setRehearsal(v)} />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {step === 4 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-2">How much support would you like before the wedding?</h3>
+          {[
+            ["final", "Mainly final details and wedding-day coordination"],
+            ["meeting", "A planning meeting plus final details support"],
+            ["hands", "Multiple planning conversations, vendor coordination, and hands-on support"],
+          ].map(([v, label]) => (
+            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
+              <input type="radio" name="support" checked={support === v} onChange={() => setSupport(v)} />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {step === 5 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-1">Which parts of your wedding will need coordination?</h3>
+          <p className="text-sm text-gray-500 mb-2">Choose all that apply.</p>
+          {[
+            ["firstlook", "First look / pre-ceremony photos"],
+            ["ceremony", "Ceremony"],
+            ["cocktail", "Cocktail hour"],
+            ["reception", "Reception"],
+            ["dinner", "Dinner / formalities"],
+            ["sendoff", "Send-off"],
+          ].map(([v, label]) => (
+            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
+              <input type="checkbox" checked={events.includes(v)} onChange={() => toggleEvent(v)} />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      )}
+
+      {error && (
+        <div className="text-red-600 text-sm mt-2">Please choose an option to continue.</div>
+      )}
+
+      <div className="flex justify-between mt-6">
+        <button
+          onClick={back}
+          disabled={step === 1}
+          className="px-5 py-3 rounded-full bg-gray-100 dark:bg-zinc-800 font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Back
+        </button>
+        <button
+          onClick={next}
+          className="px-6 py-3 rounded-full bg-primary text-white font-semibold"
+        >
+          {step === totalSteps ? "See My Recommendation" : "Next"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+<Estimator />
+
+<Note>
+  Prefer to talk it through? Email [joyincict@gmail.com](mailto:joyincict@gmail.com) and Allison will personally help you pick the right level of support.
+</Note>
