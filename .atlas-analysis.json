@@ -1,13 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "Joy Inc.",
+  "projectType": "saas",
+  "projectName": "Joy Inc.",
+  "projectDescription": "Joy Inc. is a wedding coordination company offering tiered day-of and full-service coordination packages to help couples plan and execute their perfect celebration.",
   "theme": "almond",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -51,20 +49,19 @@
       }
     ]
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Contact Us",
-        "href": "mailto:joyincict@gmail.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Book a Consultation",
-      "href": "mailto:joyincict@gmail.com?subject=Joy%20Inc.%20Wedding%20Coordination%20Consultation"
-    }
-  },
-  "footer": {
-    "socials": {}
-  }
+  "keyFeatures": [
+    "Tiered coordination packages for every wedding size and budget",
+    "Day-of wedding coordination covering ceremony, cocktail hour, reception, and more",
+    "Pre-wedding planning meetings and vendor coordination",
+    "Rehearsal attendance and direction",
+    "Personalized package recommendation quiz",
+    "Coverage from intimate elopements to large logistically complex weddings"
+  ],
+  "publicApiSurface": [
+    "Package: The Elopement Essentials ($299)",
+    "Package: The Intimate Keepsake ($399)",
+    "Package: The Joyful Gathering ($549)",
+    "Package: The Ultimate Celebration ($749)",
+    "Contact: joyincict@gmail.com"
+  ]
 }
