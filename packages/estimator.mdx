@@ -1,29 +1,16 @@
 ---
-title: "Wedding Coordination Package Estimator | Joy Inc."
+title: "Joy Inc. Wedding Coordination Estimator"
 sidebarTitle: "Package Estimator"
 description: "Answer a few quick questions and Joy Inc. will recommend the wedding coordination package that best fits your celebration, with an estimated investment."
 ---
 
-Find your perfect level of support in under a minute. Tell us a bit about your celebration and we'll recommend the Joy Inc. package that fits best, along with an estimated investment.
-
 export const Estimator = () => {
-  const PRICES = {
-    essentials: 299,
-    keepsake: 399,
-    gathering: 549,
-    celebration: 749,
-  };
+  const PRICES = { essentials: 299, keepsake: 399, gathering: 549, celebration: 749 };
   const NAMES = {
     essentials: "The Elopement Essentials",
     keepsake: "The Intimate Keepsake",
     gathering: "The Joyful Gathering",
     celebration: "The Ultimate Celebration",
-  };
-  const HREFS = {
-    essentials: "/packages/elopement-essentials",
-    keepsake: "/packages/intimate-keepsake",
-    gathering: "/packages/joyful-gathering",
-    celebration: "/packages/ultimate-celebration",
   };
 
   const totalSteps = 5;
@@ -91,154 +78,192 @@ export const Estimator = () => {
     return { key, reason };
   };
 
-  const Option = ({ name, value, checked, onChange, type: t = "radio" }) => (
-    <label className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
-      <input type={t} name={name} value={value} checked={checked} onChange={onChange} className="accent-current" />
-      <span>{value}</span>
-    </label>
-  );
+  const optionStyle = {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    border: "1px solid #e8e1cf",
+    borderRadius: "14px",
+    padding: "15px 16px",
+    margin: "10px 0",
+    cursor: "pointer",
+    fontFamily: 'Georgia, "Times New Roman", serif',
+    color: "#2d2d2d",
+    background: "#fff",
+  };
+
+  const cardStyle = {
+    background: "#fff",
+    border: "1px solid #e8e1cf",
+    borderRadius: "18px",
+    padding: "28px",
+    boxShadow: "0 8px 30px rgba(0,0,0,.06)",
+    fontFamily: 'Georgia, "Times New Roman", serif',
+    color: "#2d2d2d",
+    maxWidth: "780px",
+    margin: "24px auto",
+  };
+
+  const btnBase = {
+    border: 0,
+    borderRadius: "999px",
+    padding: "13px 20px",
+    fontFamily: 'Georgia, "Times New Roman", serif',
+    fontWeight: 600,
+    fontSize: "16px",
+    cursor: "pointer",
+  };
 
   if (done) {
     const { key, reason } = recommend();
     return (
-      <div className="my-6 rounded-2xl border border-gray-200 dark:border-zinc-800 p-8 text-center">
-        <div className="uppercase tracking-widest text-xs text-gray-500 font-semibold">Based on your answers, we recommend</div>
-        <div className="text-3xl font-semibold mt-2 mb-2">{NAMES[key]}</div>
-        <div className="text-4xl font-bold my-3">${PRICES[key].toLocaleString()} estimated</div>
-        <p className="max-w-xl mx-auto text-gray-600 dark:text-zinc-400 mb-2">{reason}</p>
-        <p className="text-xs text-gray-500 mb-6">This is an estimated investment, not a final quote. Your exact needs may affect the final price.</p>
-        <div className="flex flex-wrap gap-3 justify-center">
-          <a href="mailto:joyincict@gmail.com?subject=Joy%20Inc.%20Wedding%20Coordination%20Consultation" className="inline-block px-6 py-3 rounded-full bg-primary text-white font-semibold no-underline">
-            Let's Talk About Your Wedding
-          </a>
-          <a href={HREFS[key]} className="inline-block px-6 py-3 rounded-full border border-gray-300 dark:border-zinc-700 font-semibold no-underline">
-            View Package Details
-          </a>
-        </div>
-        <div className="mt-6">
-          <button onClick={restart} className="underline text-sm text-gray-500">Start over</button>
+      <div style={{ background: "#fffaf0", padding: "24px", borderRadius: "18px" }}>
+        <div style={cardStyle}>
+          <div style={{ textAlign: "center", paddingTop: "8px" }}>
+            <div style={{ textTransform: "uppercase", letterSpacing: "2px", fontSize: "12px", color: "#777", fontWeight: "bold" }}>
+              Based on your answers, we recommend
+            </div>
+            <div style={{ fontSize: "34px", lineHeight: 1.15, margin: "8px 0", color: "#2d2d2d" }}>{NAMES[key]}</div>
+            <div style={{ fontSize: "42px", fontWeight: "bold", margin: "10px 0", color: "#2d2d2d" }}>
+              ${PRICES[key].toLocaleString()} estimated
+            </div>
+            <p style={{ maxWidth: "580px", margin: "12px auto 20px", color: "#555", lineHeight: 1.6 }}>{reason}</p>
+            <p style={{ fontSize: "13px", color: "#777" }}>
+              This is an estimated investment, not a final quote. Your exact needs may affect the final price.
+            </p>
+            <a
+              href="mailto:joyincict@gmail.com?subject=Joy%20Inc.%20Wedding%20Coordination%20Consultation"
+              style={{ display: "inline-block", textDecoration: "none", color: "#222", background: "#ffde59", padding: "14px 22px", borderRadius: "999px", fontWeight: "bold", marginTop: "8px" }}
+            >
+              Let's Talk About Your Wedding
+            </a>
+            <div>
+              <button onClick={restart} style={{ ...btnBase, marginTop: "16px", background: "transparent", textDecoration: "underline", color: "#2d2d2d" }}>
+                Start Over
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
+  const options = {
+    1: {
+      name: "type",
+      question: "What kind of celebration are you planning?",
+      items: [
+        ["elopement", "Elopement"],
+        ["micro", "Micro-wedding"],
+        ["intimate", "Small or intimate wedding"],
+        ["traditional", "Traditional wedding"],
+        ["complex", "Large or logistically complex wedding"],
+      ],
+      value: type, set: setType, kind: "radio",
+    },
+    2: {
+      name: "hours",
+      question: "How much wedding-day coverage do you think you'll need?",
+      items: [["4", "About 4 hours"], ["6", "About 6 hours"], ["8", "About 8 hours"], ["10", "More than 8 hours"]],
+      value: hours, set: setHours, kind: "radio",
+    },
+    3: {
+      name: "rehearsal",
+      question: "Will you have a rehearsal?",
+      items: [["yes", "Yes, we'll have a rehearsal"], ["no", "No rehearsal"]],
+      value: rehearsal, set: setRehearsal, kind: "radio",
+    },
+    4: {
+      name: "support",
+      question: "How much support would you like before the wedding?",
+      items: [
+        ["final", "Mainly final details and wedding-day coordination"],
+        ["meeting", "A planning meeting plus final details support"],
+        ["hands", "Multiple planning conversations, vendor coordination, and hands-on support"],
+      ],
+      value: support, set: setSupport, kind: "radio",
+    },
+    5: {
+      name: "event",
+      question: "Which parts of your wedding will need coordination?",
+      subtext: "Choose all that apply.",
+      items: [
+        ["firstlook", "First look / pre-ceremony photos"],
+        ["ceremony", "Ceremony"],
+        ["cocktail", "Cocktail hour"],
+        ["reception", "Reception"],
+        ["dinner", "Dinner / formalities"],
+        ["sendoff", "Send-off"],
+      ],
+      kind: "checkbox",
+    },
+  };
+
+  const current = options[step];
+
   return (
-    <div className="my-6 rounded-2xl border border-gray-200 dark:border-zinc-800 p-6 md:p-8">
-      <div className="h-2 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden mb-6">
-        <div className="h-full bg-primary transition-all" style={{ width: `${(step / totalSteps) * 100}%` }} />
-      </div>
+    <div style={{ background: "#fffaf0", padding: "24px", borderRadius: "18px" }}>
+      <div style={cardStyle}>
+        <h1 style={{ fontSize: "clamp(30px,5vw,44px)", lineHeight: 1.08, margin: "0 0 10px", color: "#2d2d2d" }}>
+          Find Your Perfect Level of Support
+        </h1>
+        <p style={{ color: "#666", marginTop: 0, lineHeight: 1.6 }}>
+          Answer a few quick questions and we'll recommend the Joy Inc. coordination package that best fits your celebration.
+        </p>
 
-      {step === 1 && (
+        <div style={{ height: "8px", background: "#eee8d8", borderRadius: "99px", overflow: "hidden", margin: "22px 0 28px" }}>
+          <div style={{ height: "100%", width: `${(step / totalSteps) * 100}%`, background: "#ffde59", transition: ".25s" }} />
+        </div>
+
         <div>
-          <h3 className="text-xl font-semibold mb-2">What kind of celebration are you planning?</h3>
-          {[
-            ["elopement", "Elopement"],
-            ["micro", "Micro-wedding"],
-            ["intimate", "Small or intimate wedding"],
-            ["traditional", "Traditional wedding"],
-            ["complex", "Large or logistically complex wedding"],
-          ].map(([v, label]) => (
-            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
-              <input type="radio" name="type" checked={type === v} onChange={() => setType(v)} />
+          <h2 style={{ fontSize: "24px", margin: "0 0 12px", color: "#2d2d2d" }}>{current.question}</h2>
+          {current.subtext && <p style={{ fontSize: "13px", color: "#777", marginTop: 0 }}>{current.subtext}</p>}
+          {current.items.map(([v, label]) => (
+            <label key={v} style={optionStyle}>
+              {current.kind === "checkbox" ? (
+                <input
+                  type="checkbox"
+                  checked={events.includes(v)}
+                  onChange={() => toggleEvent(v)}
+                  style={{ marginRight: "10px", accentColor: "#222" }}
+                />
+              ) : (
+                <input
+                  type="radio"
+                  name={current.name}
+                  checked={current.value === v}
+                  onChange={() => current.set(v)}
+                  style={{ marginRight: "10px", accentColor: "#222" }}
+                />
+              )}
               <span>{label}</span>
             </label>
           ))}
+          {error && (
+            <div style={{ color: "#a33", fontSize: "14px", marginTop: "10px" }}>
+              {step === 5 ? "Please choose at least one event." : "Please choose an option to continue."}
+            </div>
+          )}
         </div>
-      )}
 
-      {step === 2 && (
-        <div>
-          <h3 className="text-xl font-semibold mb-2">How much wedding-day coverage do you think you'll need?</h3>
-          {[
-            ["4", "About 4 hours"],
-            ["6", "About 6 hours"],
-            ["8", "About 8 hours"],
-            ["10", "More than 8 hours"],
-          ].map(([v, label]) => (
-            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
-              <input type="radio" name="hours" checked={hours === v} onChange={() => setHours(v)} />
-              <span>{label}</span>
-            </label>
-          ))}
+        <div style={{ display: "flex", gap: "12px", justifyContent: "space-between", marginTop: "24px" }}>
+          <button
+            onClick={back}
+            disabled={step === 1}
+            style={{ ...btnBase, background: "#f0eee7", color: "#333", opacity: step === 1 ? 0.45 : 1, cursor: step === 1 ? "not-allowed" : "pointer" }}
+          >
+            Back
+          </button>
+          <button
+            onClick={next}
+            style={{ ...btnBase, background: "#ffde59", color: "#222" }}
+          >
+            {step === totalSteps ? "See My Recommendation" : "Next"}
+          </button>
         </div>
-      )}
-
-      {step === 3 && (
-        <div>
-          <h3 className="text-xl font-semibold mb-2">Will you have a rehearsal?</h3>
-          {[
-            ["yes", "Yes, we'll have a rehearsal"],
-            ["no", "No rehearsal"],
-          ].map(([v, label]) => (
-            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
-              <input type="radio" name="rehearsal" checked={rehearsal === v} onChange={() => setRehearsal(v)} />
-              <span>{label}</span>
-            </label>
-          ))}
-        </div>
-      )}
-
-      {step === 4 && (
-        <div>
-          <h3 className="text-xl font-semibold mb-2">How much support would you like before the wedding?</h3>
-          {[
-            ["final", "Mainly final details and wedding-day coordination"],
-            ["meeting", "A planning meeting plus final details support"],
-            ["hands", "Multiple planning conversations, vendor coordination, and hands-on support"],
-          ].map(([v, label]) => (
-            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
-              <input type="radio" name="support" checked={support === v} onChange={() => setSupport(v)} />
-              <span>{label}</span>
-            </label>
-          ))}
-        </div>
-      )}
-
-      {step === 5 && (
-        <div>
-          <h3 className="text-xl font-semibold mb-1">Which parts of your wedding will need coordination?</h3>
-          <p className="text-sm text-gray-500 mb-2">Choose all that apply.</p>
-          {[
-            ["firstlook", "First look / pre-ceremony photos"],
-            ["ceremony", "Ceremony"],
-            ["cocktail", "Cocktail hour"],
-            ["reception", "Reception"],
-            ["dinner", "Dinner / formalities"],
-            ["sendoff", "Send-off"],
-          ].map(([v, label]) => (
-            <label key={v} className="flex items-center gap-3 border border-gray-200 dark:border-zinc-800 rounded-xl px-4 py-3 my-2 cursor-pointer hover:border-gray-400 dark:hover:border-zinc-600 transition">
-              <input type="checkbox" checked={events.includes(v)} onChange={() => toggleEvent(v)} />
-              <span>{label}</span>
-            </label>
-          ))}
-        </div>
-      )}
-
-      {error && (
-        <div className="text-red-600 text-sm mt-2">Please choose an option to continue.</div>
-      )}
-
-      <div className="flex justify-between mt-6">
-        <button
-          onClick={back}
-          disabled={step === 1}
-          className="px-5 py-3 rounded-full bg-gray-100 dark:bg-zinc-800 font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          Back
-        </button>
-        <button
-          onClick={next}
-          className="px-6 py-3 rounded-full bg-primary text-white font-semibold"
-        >
-          {step === totalSteps ? "See My Recommendation" : "Next"}
-        </button>
       </div>
     </div>
   );
 };
 
 <Estimator />
-
-<Note>
-  Prefer to talk it through? Email [joyincict@gmail.com](mailto:joyincict@gmail.com) and Allison will personally help you pick the right level of support.
-</Note>
