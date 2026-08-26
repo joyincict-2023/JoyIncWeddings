@@ -3,9 +3,9 @@
   "name": "Joy Inc.",
   "theme": "almond",
   "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
+    "primary": "#ffde59",
+    "light": "#ffde59",
+    "dark": "#000000"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -34,7 +34,7 @@
     "links": [
       {
         "label": "Contact Us",
-        "href": "mailto:joyincict@gmail.com"
+        "href": "https://docs.google.com/forms/d/e/1FAIpQLSdeWz40ToGWB4Vd31kpezDx8PaZpFszrthCkAn-TAyeq2NIeA/viewform?usp=sharing&ouid=115444117609443070243"
       }
     ],
     "primary": {
@@ -44,6 +44,36 @@
     }
   },
   "footer": {
-    "socials": {}
+    "socials": {
+      "instagram": "https://www.instagram.com/joyincict",
+      "facebook": "https://www.facebook.com/profile.php?id=61592679088044"
+    }
+  },
+  "background": {
+    "image": {
+      "light": "/images/JoyInc.Logo.png",
+      "dark": "/images/unnamed.jpg"
+    },
+    "decoration": "windows",
+    "color": {
+      "light": "#ffffff"
+    }
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "appearance": {
+    "default": "light"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Safira March"
+    },
+    "body": {
+      "family": "Bookmania"
+    }
+  },
+  "thumbnails": {
+    "background": "/images/JoyInc.Logo.png"
   }
 }
