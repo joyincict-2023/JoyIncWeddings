@@ -17,35 +17,13 @@
             "group": "Welcome",
             "pages": [
               "introduction",
-              "how-it-works"
-            ]
-          },
-          {
-            "group": "Our Packages",
-            "pages": [
-              "packages/overview",
-              "packages/estimator",
-              "packages/elopement-essentials",
-              "packages/intimate-keepsake",
-              "packages/joyful-gathering",
-              "packages/ultimate-celebration"
-            ]
-          },
-          {
-            "group": "Planning Your Wedding",
-            "pages": [
-              "planning/getting-started",
-              "planning/timeline",
-              "planning/rehearsal",
-              "planning/vendor-coordination"
-            ]
-          },
-          {
-            "group": "Wedding Day",
-            "pages": [
-              "wedding-day/what-to-expect",
-              "wedding-day/coverage-and-events",
-              "wedding-day/frequently-asked-questions"
+              {
+                "group": "Our Packages",
+                "pages": [
+                  "packages/overview",
+                  "packages/estimator"
+                ]
+              }
             ]
           }
         ]
